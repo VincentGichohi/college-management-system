@@ -175,3 +175,36 @@ def edit_staff_save(request):
         except:
             messages.error(request, "Failed to Update Staff.")
             return redirect('/edit_staff/'+staff_id)
+
+
+def delete_staff(request, staff_id):
+    staff = Staffs.objects.get(admin=staff_id)
+    try:
+        staff.delete()
+        messages.success(request, "Staff Deleted Successfully.")
+        return redirect('manage_staff')
+    except:
+        messages.error(request, "Failed to Delete Staff.")
+        return redirect('manage_staff')
+ 
+ 
+ 
+ 
+def add_course(request):
+    return render(request, "hod_template/add_course_template.html")
+ 
+ 
+def add_course_save(request):
+    if request.method != "POST":
+        messages.error(request, "Invalid Method!")
+        return redirect('add_course')
+    else:
+        course = request.POST.get('course')
+        try:
+            course_model = Courses(course_name=course)
+            course_model.save()
+            messages.success(request, "Course Added Successfully!")
+            return redirect('add_course')
+        except:
+            messages.error(request, "Failed to Add Course!")
+            return redirect('add_course')
