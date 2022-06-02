@@ -103,7 +103,7 @@ def registration(request):
     return render(request, 'registration.html')
 
 
-def logout(request):
+def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/')
 
