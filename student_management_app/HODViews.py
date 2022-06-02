@@ -208,3 +208,50 @@ def add_course_save(request):
         except:
             messages.error(request, "Failed to Add Course!")
             return redirect('add_course')
+
+def manage_course(request):
+    courses = Courses.objects.all()
+    context = {
+        "courses": courses
+    }
+    return render(request, 'hod_template/manage_course_template.html', context)
+ 
+ 
+def edit_course(request, course_id):
+    course = Courses.objects.get(id=course_id)
+    context = {
+        "course": course,
+        "id": course_id
+    }
+    return render(request, 'hod_template/edit_course_template.html', context)
+ 
+ 
+def edit_course_save(request):
+    if request.method != "POST":
+        HttpResponse("Invalid Method")
+    else:
+        course_id = request.POST.get('course_id')
+        course_name = request.POST.get('course')
+ 
+        try:
+            course = Courses.objects.get(id=course_id)
+            course.course_name = course_name
+            course.save()
+ 
+            messages.success(request, "Course Updated Successfully.")
+            return redirect('/edit_course/'+course_id)
+ 
+        except:
+            messages.error(request, "Failed to Update Course.")
+            return redirect('/edit_course/'+course_id)
+ 
+ 
+def delete_course(request, course_id):
+    course = Courses.objects.get(id=course_id)
+    try:
+        course.delete()
+        messages.success(request, "Course Deleted Successfully.")
+        return redirect('manage_course')
+    except:
+        messages.error(request, "Failed to Delete Course.")
+        return redirect('manage_course')
