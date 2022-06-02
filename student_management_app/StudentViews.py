@@ -42,3 +42,18 @@ def student_home(request):
         "data_absent": data_absent
     }
     return render(request, "student_template/student_home_template.html")
+
+def student_view_attendance(request):
+   
+    # Getting Logged in Student Data
+    student = Students.objects.get(admin=request.user.id)
+     
+    # Getting Course Enrolled of LoggedIn Student
+    course = student.course_id
+     
+    # Getting the Subjects of Course Enrolled
+    subjects = Subjects.objects.filter(course_id=course)
+    context = {
+        "subjects": subjects
+    }
+    return render(request, "student_template/student_view_attendance.html", context)
