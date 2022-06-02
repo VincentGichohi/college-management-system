@@ -98,3 +98,4 @@ def student_view_attendance_post(request):
         }
  
         return render(request, 'student_template/student_attendance_data.html', context)
+
