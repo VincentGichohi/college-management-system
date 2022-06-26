@@ -66,7 +66,7 @@ class Subjects(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = models.Manager()
  
- 
+
  
 class Students(models.Model):
     id = models.AutoField(primary_key=True)
