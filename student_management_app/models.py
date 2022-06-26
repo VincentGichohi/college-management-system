@@ -1,4 +1,6 @@
 
+from multiprocessing.sharedctypes import Value
+from tabnanny import verbose
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.db.models.signals import post_save
@@ -8,11 +10,47 @@ ALLOWED_GENDER = [
     ("MALE", "MALE"),
     ("FEMALE", "FEMALE")
 ]
-class SessionYearModel(models.Model):
-    id = models.AutoField(primary_key=True)
-    session_start_year = models.DateField()
-    session_end_year = models.DateField()
-    objects = models.Manager()
+
+class UserManager(BaseUserManager):
+    def create_user(self, email, password=None):
+        """
+        Creates and saves a user with a given email and password.
+        """
+        if not email:
+            raise ValueError("Users must have an email address!")
+        user = self.model(
+            email = self.normalize_email(email),
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_staffuser(self, email, password);
+        """
+        Creates a staffuser with a given email and password
+        """
+        user =  self.create_user(
+            email,
+            password=password
+        )
+        user.staff = True
+        user.admin = True
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, email, password):
+        """
+        Creates a superuser with a given email and password
+        """
+        user = self.create_user(
+            email,
+            password=password
+        )
+        user.staff = True
+        user.admin = True
+        user.save(using=self._db)
+        return user
+
 
 # Overriding the Default Django Auth
 # User and adding One More Field (user_type)
@@ -26,9 +64,62 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         'staff': STAFF,
         'student': STUDENT
     }
- 
+    objects = UserManager()
+
+    email = models.EmailField(
+        verbose_name='email address',
+        max_length=255,
+        unique=True
+    )
+    is_active = models.BooleanField(default=True)
+    staff = models.BooleanField(default=False) #An admin user; not a superuser
+    admin = models.BooleanField(default=False) #A superuser
+
+    #notice the absence of a password field, that is built in
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = [] #Email and passwords are required by default
+
+    def get_full_name(self):
+        #The user is identified by their email
+        return self.email
+    
+    def get_short_name(self):
+        #The user gets identified by their email address
+        return self.email
+     
+    def __str__(self):
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission"
+        #Simplest possible answer; Yes, always
+        return True
+    
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app_label"
+        #Simplest possible answer, yes always
+        return True
+
+    @property
+    def is_staff(self):
+        "Is the user a member of the staff"
+        return self.staff
+    
+    @property
+    def is_admin(self):
+        "Is the user an admin member"
+        return self.admin
+
+
     user_type_data = ((HOD, "HOD"), (STAFF, "Staff"), (STUDENT, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
+class SessionYearModel(models.Model):
+    id = models.AutoField(primary_key=True)
+    session_start_year = models.DateField()
+    session_end_year = models.DateField()
+    objects = models.Manager()
+
+
  
  
 class AdminHOD(models.Model):
