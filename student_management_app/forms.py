@@ -1,6 +1,6 @@
 
 from django import forms
-from .models import Courses, SessionYearModel
+from .models import Courses, SessionYearModel, CustomUser
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
@@ -12,10 +12,10 @@ class RegisterForm(forms.ModelForm):
     The default
     """
     password = forms.CharField(widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['email']
 
     def clean_email(self):
@@ -48,7 +48,7 @@ class UserAdminCreationForm(forms.ModelForm):
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['email']
 
     def clean(self):
@@ -79,8 +79,8 @@ class UserAdminChangeForm(forms.ModelForm):
     password = ReadOnlyPasswordHashField()
 
     class Meta:
-        model = User
-        fields = ['email', 'password', 'passowrd_2', 'is_active', 'admin']
+        model = CustomUser
+        fields = ['email', 'password', 'is_active']
 
     def clean_password(self):
         #Regardless of what the user provides, return the initial value

@@ -125,7 +125,7 @@ def add_staff_save(request):
             return redirect('add_staff')
  
  
- 
+
 def manage_staff(request):
     staffs = Staffs.objects.all()
     context = {

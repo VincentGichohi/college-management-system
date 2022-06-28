@@ -1,6 +1,7 @@
 
 from multiprocessing.sharedctypes import Value
 from tabnanny import verbose
+from termios import EXTA
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.db.models.signals import post_save
@@ -12,42 +13,50 @@ ALLOWED_GENDER = [
 ]
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, email, password=None, **extra_fields):
         """
         Creates and saves a user with a given email and password.
         """
         if not email:
             raise ValueError("Users must have an email address!")
         user = self.model(
-            email = self.normalize_email(email),
+            email = self.normalize_email(email), **extra_fields
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, email, password):
+    def create_staffuser(self, email, password, **extra_fields):
         """
         Creates a staffuser with a given email and password
         """
         user =  self.create_user(
             email,
-            password=password
+            password=password,
+            **extra_fields
         )
         user.staff = True
         user.admin = True
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password):
+    def create_superuser(self, email, password, **extra_fields):
         """
         Creates a superuser with a given email and password
         """
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have a superuser=True')
         user = self.create_user(
             email,
-            password=password
+            password=password,
+            **extra_fields
         )
-        user.staff = True
-        user.admin = True
         user.save(using=self._db)
         return user
 
@@ -72,8 +81,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         unique=True
     )
     is_active = models.BooleanField(default=True)
-    staff = models.BooleanField(default=False) #An admin user; not a superuser
-    admin = models.BooleanField(default=False) #A superuser
+    is_staff = models.BooleanField(default=False)
+    # staff = models.BooleanField(default=False) #An admin user; not a superuser
+    # admin = models.BooleanField(default=False) #A superuser
 
     #notice the absence of a password field, that is built in
     USERNAME_FIELD = 'email'
@@ -100,16 +110,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         #Simplest possible answer, yes always
         return True
 
-    @property
-    def is_staff(self):
-        "Is the user a member of the staff"
-        return self.staff
-    
-    @property
-    def is_admin(self):
-        "Is the user an admin member"
-        return self.admin
-
 
     user_type_data = ((HOD, "HOD"), (STAFF, "Staff"), (STUDENT, "Student"))
     user_type = models.CharField(default=1, choices=user_type_data, max_length=10)
@@ -119,8 +119,6 @@ class SessionYearModel(models.Model):
     session_end_year = models.DateField()
     objects = models.Manager()
 
-
- 
  
 class AdminHOD(models.Model):
     id = models.AutoField(primary_key=True)
