@@ -13,20 +13,21 @@ ALLOWED_GENDER = [
 ]
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, **extra_fields):
+    def create_user(self, email,password=None, **extra_fields):
         """
         Creates and saves a user with a given email and password.
         """
         if not email:
             raise ValueError("Users must have an email address!")
         user = self.model(
-            email = self.normalize_email(email), **extra_fields
+            email = self.normalize_email(email), 
+            **extra_fields
         )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_staffuser(self, email, password, **extra_fields):
+    def create_staffuser(self, email, password,**extra_fields):
         """
         Creates a staffuser with a given email and password
         """
@@ -40,7 +41,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email,password, **extra_fields):
         """
         Creates a superuser with a given email and password
         """
