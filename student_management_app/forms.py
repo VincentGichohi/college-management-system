@@ -6,7 +6,7 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 User = get_user_model()
 
-
+#A form for registering new users which takes fields
 class RegisterForm(forms.ModelForm):
     """
     The default
@@ -16,22 +16,42 @@ class RegisterForm(forms.ModelForm):
 
     class Meta:
         model = CustomUser
-        fields = ['email']
+        fields = ['email', 'first_name', 'last_name']
 
-    def clean_email(self):
-        '''
+    def clean_email(self, email):
+        """
         Verify email is available.
-        '''
+        """
         email = self.cleaned_data(email)
         qs = User.objects.filter(email=email)
         if qs.exists():
             raise forms.ValidationError("email is taken")
         return email
 
+    def clean_first_name(self, first_name):
+        """
+        Verify that the first_name field is not blank
+        """
+        first_name = self.cleaned_data(first_name)
+        qs = User.objects.filter(first_name=first_name)
+        if qs.exists():
+            raise forms.ValidationError("first_name is taken.")
+        return first_name
+
+    def clean_last_name(self, last_name):
+        """
+        Verify that last name is available.
+        """
+        last_name = self.cleaned_data(last_name)
+        qs = User.objects.filter(last_name=last_name)
+        if qs.exists():
+            raise forms.ValidationError("Last name is taken.")
+        return last_name
+
     def clean(self):
-        '''
+        """
         Verify both passwords match
-        '''
+        """
         cleaned_data = super().clean()
         password = cleaned_data.get('password')
         password_2 = cleaned_data.get('password_2')
@@ -39,6 +59,8 @@ class RegisterForm(forms.ModelForm):
             self.add_error('Password_2', "Your passwords must match")
         return cleaned_data
 
+
+#A form for logging in new users. Checks the email and their passwords
 class UserAdminCreationForm(forms.ModelForm):
     """
     A form for creating new users. Includes all the required fields, 
@@ -52,9 +74,9 @@ class UserAdminCreationForm(forms.ModelForm):
         fields = ['email']
 
     def clean(self):
-        '''
+        """
         Verify both passwords match.
-        '''
+        """
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password_2 = cleaned_data.get("password_2")
@@ -63,12 +85,13 @@ class UserAdminCreationForm(forms.ModelForm):
         return cleaned_data
 
     def save(self, commit=True):
-        #Save the provided password in hashed format.
+        # Save the provided password in hashed format.
         user = super().save(commit=False)
         user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
         return user
+
 
 class UserAdminChangeForm(forms.ModelForm):
     """
@@ -83,10 +106,11 @@ class UserAdminChangeForm(forms.ModelForm):
         fields = ['email', 'password', 'is_active']
 
     def clean_password(self):
-        #Regardless of what the user provides, return the initial value
-        #This is done here, rather than one of the field, because the 
-        #field does not have access to the initial value
+        # Regardless of what the user provides, return the initial value
+        # This is done here, rather than one of the field, because the
+        # field does not have access to the initial value
         return self.initial['password']
+
 
 class DateInput(forms.DateInput):
     input_type = "date"
@@ -123,7 +147,7 @@ class AddStudentForm(forms.Form):
         print("here")
         course_list = []
      
-    #For Displaying Session Years
+    # For Displaying Session Years
     try:
         session_years = SessionYearModel.objects.all()
         session_year_list = []
@@ -193,8 +217,8 @@ class EditStudentForm(forms.Form):
  
      
     gender_list = (
-        ('Male','Male'),
-        ('Female','Female')
+        ('Male', 'Male'),
+        ('Female', 'Female')
     )
      
     course_id = forms.ChoiceField(label="Course",
