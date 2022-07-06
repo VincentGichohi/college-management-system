@@ -2,15 +2,29 @@ from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirec
 from django.contrib.auth import login, logout, authenticate
 from .models import CustomUser, Staffs, Students, AdminHOD
 from django.contrib import messages
+from django.urls import reverse_lazy
+from .forms import RegisterForm
+from django.views.generic import CreateView
+
+
+# A class based view for registration
+
+class SignUpView(CreateView):
+    form_class = RegisterForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration.html'
 
 def home(request):
     return render(request, 'home.html')
- 
+
+
 def contact(request):
     return render(request, 'contact.html')
- 
+
+
 def loginUser(request):
     return render(request, 'login_page.html')
+
 
 def doRegistration(request):
     first_name = request.GET.get('first_name')
@@ -106,6 +120,7 @@ def registration(request):
 def logout_user(request):
     logout(request)
     return HttpResponseRedirect('/')
+
 
 def get_user_type_from_email(email_id):
     """
