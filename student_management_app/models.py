@@ -74,6 +74,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         'staff': STAFF,
         'student': STUDENT
     }
+    
     objects = UserManager()
 
     email = models.EmailField(
