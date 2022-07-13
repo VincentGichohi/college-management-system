@@ -3,7 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from .models import CustomUser, Staffs, Students, AdminHOD
 from django.contrib import messages
 from django.urls import reverse_lazy
-from .forms import RegisterForm
+from .forms import RegisterForm, UserAdminChangeForm, UserAdminCreationForm
 from django.views.generic import CreateView
 
 
