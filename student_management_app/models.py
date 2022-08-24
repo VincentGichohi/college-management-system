@@ -82,7 +82,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         max_length=255,
         unique=True
     )
-    username = models.CharField(max_length=255, required=True, blank=False, null=False)
+    username = models.CharField(max_length=255, blank=False, null=False)
     first_name = models.CharField(max_length=255, default=True, blank=False, null=False)
     last_name = models.CharField(max_length=255, default=True, blank=False, null=False)
     is_active = models.BooleanField(default=True)
