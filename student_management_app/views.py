@@ -125,7 +125,7 @@ def logout_user(request):
 def get_user_type_from_email(email_id):
     """
     Returns CustomUser.user_type corresponding to the given email address
-    email_id should be in following format:
+    email_id should be in following~ format:
     '<username>.<staff|student|hod>@<college_domain>'
     eg.: 'abhishek.staff@jecrc.com'
     """

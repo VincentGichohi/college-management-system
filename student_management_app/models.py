@@ -111,7 +111,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return True
 
     def has_module_perms(self, app_label):
-        "Does the user have permissions to view the app_label"
+        """Does the user have permissions to view the app_label"""
         # Simplest possible answer, yes always
         return True
 
