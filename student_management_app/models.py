@@ -35,4 +35,7 @@ class Session(models.Model):
         return "From " + str(self.start_year) + " to " + str(self.end_year)
 
 
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    USER_TYPE = ((1, "HOD"), (2, "Staff"), (3, "Student"))
+
 
