@@ -45,5 +45,15 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=1, choices=GENDER)
     profile_pic = models.ImageField()
     address = models.TextField()
+    form_token = models.TextField(default=1) # for firebase notification
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    USERNAME_FIELD = "email"
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.last_name + ", " + self.first_name
+
 
 
