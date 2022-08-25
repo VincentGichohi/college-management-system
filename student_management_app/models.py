@@ -124,3 +124,11 @@ class LeaveReportStudent(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
+class LeaveReportStaff(models.Model):
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE)
+    date = models.CharField(max_length=60)
+    message = models.TextField()
+    status = models.SmallIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
