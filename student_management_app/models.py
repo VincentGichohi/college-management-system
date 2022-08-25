@@ -79,3 +79,13 @@ class Student(models.Model):
 
     def __str__(self):
         return self.admin.last_name + " , " + self.admin.first_name
+
+
+class Staff(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, null=True, blank=False)
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.admin.last_name + " , " + self.admin.first_name
+
+
