@@ -56,4 +56,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.last_name + ", " + self.first_name
 
 
+class Admin(models.Model):
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
