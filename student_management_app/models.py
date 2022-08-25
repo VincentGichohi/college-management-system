@@ -100,3 +100,10 @@ class Subject(models.Model):
         return self.name
 
 
+class Attendance(models.Model):
+    session = models.ForeignKey(Session, on_delete=models.DO_NOTHING)
+    subject = models.ForeignKey(Subject, on_delete=models.DO_NOTHING)
+    date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
