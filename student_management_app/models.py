@@ -171,3 +171,13 @@ class StudentResult(models.Model):
     exam = models.FloatField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+@receiver(post_save, sender=CustomUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        if instance.user_type == 1:
+            Admin.objects.create(admin=instance)
+        if instance.user_type == 2:
+            Staff.objects.create(admin=instance)
+        if instance.user_type == 3:
+            Student.objects.create(admin=instance)
