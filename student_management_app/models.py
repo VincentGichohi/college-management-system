@@ -40,6 +40,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     GENDER = [("M", "Male"), ("F", "Female")]
 
     username = None
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     user_type = models.CharField(default=1, choices=USER_TYPE, max_length=1)
     gender = models.CharField(max_length=1, choices=GENDER)
@@ -60,10 +62,19 @@ class Admin(models.Model):
     admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
 
 
-class Courses(models.Model):
+class Course(models.Model):
     name = models.CharField(max_length=120)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+
+
+class Student(models.Model):
+    admin = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.DO_NOTHING, null=True, blank=False)
+    session = models.ForeignKey(Session, on_delete=models.DO_NOTHING, null=True)
+
+    def __str__(self):
+        return self.admin.last_name + " , " + self.admin.first_name
