@@ -27,5 +27,12 @@ class CustomUserManager(UserManager):
         return self.create_user(email, password, **extra_fields)
 
 
+class Session(models.Model):
+    start_year = models.DateField()
+    end_year = models.DateField()
+
+    def __str__(self):
+        return "From " + str(self.start_year) + " to " + str(self.end_year)
+
 
 
