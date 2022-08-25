@@ -42,5 +42,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     username = None
     email = models.EmailField(unique=True)
     user_type = models.CharField(default=1, choices=USER_TYPE, max_length=1)
+    gender = models.CharField(max_length=1, choices=GENDER)
+    profile_pic = models.ImageField()
+    address = models.TextField()
 
 
