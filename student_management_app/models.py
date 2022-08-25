@@ -37,5 +37,7 @@ class Session(models.Model):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     USER_TYPE = ((1, "HOD"), (2, "Staff"), (3, "Student"))
+    GENDER = [("M", "Male"), ("F", "Female")]
+
 
 
