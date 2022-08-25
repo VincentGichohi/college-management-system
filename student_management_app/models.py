@@ -39,5 +39,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USER_TYPE = ((1, "HOD"), (2, "Staff"), (3, "Student"))
     GENDER = [("M", "Male"), ("F", "Female")]
 
+    username = None
+    email = models.EmailField(unique=True)
+    user_type = models.CharField(default=1, choices=USER_TYPE, max_length=1)
 
 
