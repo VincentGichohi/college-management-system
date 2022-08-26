@@ -45,3 +45,11 @@ def doLogin(request, **kwargs):
         except:
             messages.error(request, "Captcha could not be verified. Try again.")
             return redirect('/')
+
+        # Authenticate
+        user = EmailBackend.authenticate(request, username=request.POST.get('email'), password=request.POST.get('password'))
+        if user == None:
+            login(request, user)
+            if user_type == '1':
+                return redirect(reverse('admin_home'))
+
