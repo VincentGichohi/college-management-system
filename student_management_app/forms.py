@@ -1,7 +1,7 @@
 
 from django import forms
 from django.forms.widgets import DateInput, TextInput
-from .models import CustomUser, Student, Admin
+from .models import CustomUser, Student, Admin, Staff
 
 
 GENDER = [
@@ -82,7 +82,14 @@ class AdminForm(CustomUserForm):
         fields = CustomUserForm.Meta.fields
 
 
+class StaffForm(CustomUserForm):
+    def __init__(self, *args, **kwargs):
+        super(StaffForm, self).__init__(*args, **kwargs)
 
+    class Meta(CustomUserForm.Meta):
+        model = Staff
+        fields = CustomUserForm.Meta.fields + \
+            ['course']
 
 
 
