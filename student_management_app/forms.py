@@ -176,3 +176,12 @@ class StudentEditForm(CustomUserForm):
         model = Student
         fields = CustomUserForm.Meta.fields
 
+
+class StaffEditForm(CustomUserForm):
+    def __init__(self, *args, **kwargs):
+        super(StaffEditForm, self).__init__(*args, **kwargs)
+
+    class Meta(CustomUserForm.Meta):
+        model = Staff
+        fields = CustomUserForm.Meta.fields
+
