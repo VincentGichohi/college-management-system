@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .EmailBackend import EmailBackend
 from .models import Session, Attendance, Subject
 
+
 def login_page(request):
     if request.user.is_authenticated:
         if request.user_type == '1':
