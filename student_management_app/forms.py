@@ -134,3 +134,13 @@ class LeaveReportStaffForm(FormSettings):
         widgets = {
             'date': DateInput(attrs={'type': 'date'}),
         }
+
+
+class FeedbackStaffForm(FormSettings):
+
+    def __init__(self, *args, **kwargs):
+        super(FeedbackStaffForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = FeedbackStaff
+        fields = ['feedback']
