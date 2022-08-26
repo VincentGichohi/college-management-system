@@ -167,3 +167,12 @@ class FeedbackStudentForm(FormSettings):
         model = FeedbackStudent
         fields = ['feedback']
 
+
+class StudentEditForm(CustomUserForm):
+    def __init__(self, *args, **kwargs):
+        super(StudentEditForm, self).__init__(*args, **kwargs)
+
+    class Meta(CustomUserForm.Meta):
+        model = Student
+        fields = CustomUserForm.Meta.fields
+
