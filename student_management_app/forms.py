@@ -1,7 +1,7 @@
 
 from django import forms
 from django.forms.widgets import DateInput, TextInput
-from .models import CustomUser
+from .models import CustomUser, Student
 
 GENDER = [
     ('M', 'Male'),
@@ -56,6 +56,19 @@ class CustomUserForm(FormSettings):
                         raise forms.ValidationError("The given email is already registered")
 
             return formEmail
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'gender', 'password', 'profile_pic', 'address']
+
+
+class StudentForm(CustomUserForm):
+    def __init__(self, *args, **kwargs):
+        super(StudentForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = Student
+        fields = CustomUserForm.Meta.fields + ['course', 'session']
 
 
 
