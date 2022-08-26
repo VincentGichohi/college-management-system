@@ -66,3 +66,26 @@ def logout_user(request):
         logout(request)
     return redirect('/')
 
+
+@csrf_exempt
+def get_attendance(request):
+    subject_id = request.POST.get('subject')
+    session_id = request.POST.get('session')
+    try:
+        subject = get_object_or_404(Subject, id=subject_id)
+        session = get_object_or_404(Session, session_id)
+        attendance = Attendance.objects.filter(subject=subject, session=session)
+        attendance_list = []
+        for attd in attendance:
+            data = {
+                "id": attd.id,
+                "attendance_date": str(attd.date),
+                "session": attd.session.id
+            }
+            attendance_list.append(data)
+        return JsonResponse(json.dumps(attendance_list), safe=False)
+    except Exception as e:
+        return None
+
+
+
