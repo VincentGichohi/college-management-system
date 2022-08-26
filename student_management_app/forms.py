@@ -3,6 +3,12 @@ from django import forms
 from django.forms.widgets import DateInput, TextInput
 from .models import CustomUser
 
+GENDER = [
+    ('M', 'Male'),
+    ('F', 'Female')
+]
+
+
 class FormSettings(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(FormSettings, self).__init__(*args, **kwargs)
