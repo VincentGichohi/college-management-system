@@ -22,3 +22,6 @@ def login_page(request):
             return redirect(reverse("student_home"))
     return render(request, 'student_management_app/login.html')
 
+def doLogin(request, **kwargs):
+    if request.method == "POST":
+        return HttpResponse("<h4>Denied</h4>")
