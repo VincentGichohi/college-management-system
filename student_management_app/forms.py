@@ -11,5 +11,17 @@ class FormSettings(forms.ModelForm):
             field.field.widget.attrs['class'] = 'form-control'
 
 
+class CustomerForm(FormSettings):
+    email = forms.EmailField(required=True)
+    gender = forms.ChoiceField(choices=[('M', 'Male'), ('F', 'Female')])
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
+    address = forms.CharField(widget=forms.Textarea)
+    password = forms.CharField(widget=forms.PasswordInput)
+    widget = {
+        'password': forms.PasswordInput(),
+    }
+    profile_pic = forms.ImageField()
+
 
 
