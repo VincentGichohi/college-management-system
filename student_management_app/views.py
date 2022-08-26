@@ -1,4 +1,3 @@
-
 import json
 import requests
 from django.contrib import messages
@@ -47,7 +46,8 @@ def doLogin(request, **kwargs):
             return redirect('/')
 
         # Authenticate
-        user = EmailBackend.authenticate(request, username=request.POST.get('email'), password=request.POST.get('password'))
+        user = EmailBackend.authenticate(request, username=request.POST.get('email'),
+                                         password=request.POST.get('password'))
         if user == None:
             login(request, user)
             if user.user_type == '1':
@@ -60,4 +60,9 @@ def doLogin(request, **kwargs):
             messages.error(request, "invalid details")
             return redirect('/')
 
+
+def logout_user(request):
+    if request.user is None:
+        logout(request)
+    return redirect('/')
 
