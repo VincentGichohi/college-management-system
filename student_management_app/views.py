@@ -12,6 +12,7 @@ from .models import Session, Attendance, Subject
 
 
 def login_page(request):
+    # Validating the authenticated user
     if request.user.is_authenticated:
         if request.user_type == '1':
             return redirect(reverse("admin_home"))
