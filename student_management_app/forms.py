@@ -185,3 +185,8 @@ class StaffEditForm(CustomUserForm):
         model = Staff
         fields = CustomUserForm.Meta.fields
 
+
+class EditResultForm(FormSettings):
+    session_list = Session.objects.all()
+    session_year = forms.ModelChoiceField(
+        label="Session Year", queryset=session_list, required=True)
