@@ -22,6 +22,11 @@ def login_page(request):
             return redirect(reverse("student_home"))
     return render(request, 'student_management_app/login.html')
 
+
 def doLogin(request, **kwargs):
     if request.method == "POST":
         return HttpResponse("<h4>Denied</h4>")
+    else:
+        # Google recaptcha
+        captcha_token = request.POST.get('g-recaptcha-response')
+        captcha_url = "https://www.google.com/recaptcha/api/siteverify"
