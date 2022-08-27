@@ -15,3 +15,11 @@ class EditResultView(View):
             'page_title': "Edit Student's Result"
         }
         return render(request, "staff_template/edit_student_result.html", context)
+
+    def post(self, request, *args, **kwargs):
+        form = EditResultForm(request.POST)
+        context = {'form': form, 'page_title': "Edit Student's Result"}
+        if form.is_valid():
+            try:
+                student = form.cleaned_data.get('student')
+                subject = form.cleaned_data.get('subject')
