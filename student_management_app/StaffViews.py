@@ -16,4 +16,9 @@ def staff_home(request):
     staff = get_object_or_404(Staff, admin=request.user)
     total_students = Student.objects.filter(course=staff.course).count()
     total_leave = LeaveReportStaff.objects.filter(staff=staff).count()
+    subjects = Subject.objects.filter(staff=staff)
+    total_subject = subjects.count()
+    attendance_list = Attendance.objects.filter(subject__in=subject)
+
+
 
