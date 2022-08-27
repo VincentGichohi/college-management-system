@@ -18,7 +18,14 @@ def staff_home(request):
     total_leave = LeaveReportStaff.objects.filter(staff=staff).count()
     subjects = Subject.objects.filter(staff=staff)
     total_subject = subjects.count()
-    attendance_list = Attendance.objects.filter(subject__in=subject)
+    attendance_list = Attendance.objects.filter(subject__in=subjects)
+    total_attendance = attendance_list.count()
+    attendance_list = []
+    subject_list = []
+    for subject in subjects:
+        attendance_count = Attendance.objects.filter(subject__in=subjects)
+        subject_list.appemd(subject.name)
+        attendance_list.append(attendance_count)
 
 
 
