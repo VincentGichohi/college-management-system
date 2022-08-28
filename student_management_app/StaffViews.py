@@ -55,3 +55,6 @@ def staff_take_attendance(request):
 def get_students(request):
     subject_id = request.POST.get('subject')
     session_id = request.POST.get('session')
+    try:
+        subject = get_object_or_404(Subject, id=subject_id)
+        
