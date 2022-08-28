@@ -53,4 +53,4 @@ def staff_take_attendance(request):
 
 @csrf_exempt
 def get_students(request):
-    
+    subject_id = request.POST.get('subject')
