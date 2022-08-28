@@ -50,3 +50,7 @@ def staff_take_attendance(request):
         'page_title': 'Total Attendance'
     }
     return render(request, 'staff_template/staff_take_attendance.html', context)
+
+@csrf_exempt
+def get_students(request):
+    
