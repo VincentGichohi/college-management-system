@@ -57,4 +57,4 @@ def get_students(request):
     session_id = request.POST.get('session')
     try:
         subject = get_object_or_404(Subject, id=subject_id)
-        
+        session = get_object_or_404(Session, id=session_id)
