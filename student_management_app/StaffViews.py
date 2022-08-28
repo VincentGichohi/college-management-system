@@ -58,3 +58,8 @@ def get_students(request):
     try:
         subject = get_object_or_404(Subject, id=subject_id)
         session = get_object_or_404(Session, id=session_id)
+        students = Student.obejcts.filter(
+            course_id = subject.course_id, session=session
+        )
+        student_Data = []
+        
