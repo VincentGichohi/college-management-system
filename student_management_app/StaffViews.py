@@ -36,6 +36,10 @@ def staff_home(request):
         'attendance_list': attendance_list
     }
     return render(request, 'staff_template/home_context.html', context)
+
+
+
+def staff_take_attendance(request):
+    staff = get_object_or_404(Staff, admin=request.user)
+    subjects = Subject.objects.filter(staff_id=staff)
     
-
-
