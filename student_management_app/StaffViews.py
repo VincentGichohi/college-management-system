@@ -33,6 +33,9 @@ def staff_home(request):
         'total_leave': total_leave,
         'total_subject': total_subject,
         'subject_list': subject_list,
+        'attendance_list': attendance_list
     }
+    return render(request, 'staff_template/home_context.html', context)
+    
 
 
