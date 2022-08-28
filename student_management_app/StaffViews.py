@@ -29,6 +29,10 @@ def staff_home(request):
     context = {
         'page_title': 'Staff Panel -' + str(staff.admin.last_name) + '(' + str(staff.course) + ')',
         'total_students': total_students,
+        'total_attendance': total_attendance,
+        'total_leave': total_leave,
+        'total_subject': total_subject,
+        'subject_list': subject_list,
     }
 
 
