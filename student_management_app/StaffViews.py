@@ -1,5 +1,6 @@
 
 import json
+from pydoc import pager
 
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
@@ -45,5 +46,7 @@ def staff_take_attendance(request):
     sessions = Session.objects.all()
     context = {
         'subjects': subjects,
-        
+        'sessions': sessions,
+        'page_title': 'Total Attendance'
     }
+    return render(request, 'staff_template/staff_take_attendance.html', context)
