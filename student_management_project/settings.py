@@ -126,4 +126,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# AUTH_USER_MODEL = 'student_management_app.CustomUser'
+AUTH_USER_MODEL = 'student_management_app.CustomUser'
