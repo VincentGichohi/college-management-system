@@ -71,3 +71,7 @@ def get_students(request):
         return JsonResponse(json.dumps(student_data), content_type='application/json', safe=False)
     except Exception as e:
         return e
+
+@csrf_exempt
+def save_attendance(request):
+    
