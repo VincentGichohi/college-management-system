@@ -94,3 +94,22 @@ def save_attendance(request):
         return None
 
     return HttpResponse('OK')
+
+
+@csrf_exempt
+def get_student_attendance(request):
+    attendance_date_id = request.POST.get('attendance_date_id')
+    try:
+        date = get_object_or_404(Attendance, id=attendance_date_id)
+        attendance_data = AttendanceReport.objects.filter(attendance=date)
+        student_data = []
+        for attendance in attendance_data:
+            data = {'id': attendance.student.admin.id,
+                    'name': attendance.student.admin.last_name + " " + attendance.student.admin.first_name,
+                    'status': attendance.status}
+            student_data.append(data)
+        return JsonResponse(json.dumps(student_data), content_type='application/json', safe=False)
+    except Exception as e:
+        return e
+
+
