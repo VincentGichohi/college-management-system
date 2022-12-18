@@ -144,6 +144,54 @@ def update_attendance(request):
         return None
 
     return HttpResponse('OK')
+
+
+def staff_apply_leave(request):
+    form = LeaveReportStaff(request.POST or None)
+    staff = get_object_or_404(Staff, admin=request.user.id)
+    context = {
+        'form': form,
+        'leave_history': LeaveReportStaff.objects.filter(staff=staff),
+        'page_title': 'Apply for Leave'
+        }
+    if request.method == 'POST':
+        if form.is_valid():
+            try:
+                obj=form.save(commit=False)
+                obj.staff = staff
+                obj.save()
+                messages.success(request, 'Application for leave has been submitted for review')
+                return redirect(reverse('staff_apply_leave'))
+            except Exception:
+                messages.error(request, 'Could not Apply')
+        else:
+            messages.error(request, 'Form has errors!')
+    return render(request, 'staff_template/staff_apply_leave.html', context)
+
+
+def staff_feedback(request):
+    form = FeedbackStaffForm(request.POST or None)
+    staff = get_object_or_404(Staff, admin=request.user.id)
+    context = {
+        'form': form,
+        'feedbacks': FeedbackStaff.objects.filter(staff=staff),
+        'page_title': 'Add Feedback'
+    }
+    if request.method == 'POST':
+        if form.is_valid():
+            try:
+                obj=form.save(commit=False)
+                obj.staff= staff
+                obj.save()
+                messages.success(request, 'Feedback submitted for review')
+                return redirect(reverse('staff_feedback'))
+            except Exception:
+                messages.error(request, 'Could not Submit')
+        else:
+            messages.error(request, 'Form has Errors!')
+    return render(request, 'staff_template/staff_feedback.html', context)
     
+    
+
 
 
