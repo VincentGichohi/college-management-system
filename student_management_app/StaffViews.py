@@ -257,4 +257,38 @@ def staff_view_notification(request):
     return render(request, 'staff_template/staff_view_notification.html', context)
 
 
+def staff_add_result(request):
+    staff = get_object_or_404(Staff, admin=request.user)
+    subjects = Subject.objects.filter(staff=staff)
+    sessions = Session.objects.all()
+    context = {
+        'page_title': 'Result Upload',
+        'subjects': subjects,
+        'sessions': sessions
+    }
+    if request.method == 'POST':
+        try:
+            student_id = request.POST.get('student_list')
+            subject_id = request.POST.get('subject')
+            test = request.POST.get('test')
+            exam = request.POST.get('exam')
+            student = get_object_or_404(Student, id=student_id)
+            subject = get_object_or_404(Subject, id=subject_id)
+            try:
+                data = StudentResult.objects.get(
+                    student=student, subject=subject
+                )
+                data.exam = exam
+                data.test = test
+                data.save()
+                messages.success(request, 'Scores Updated')
+            except:
+                result = StudentResult(student=student, subject=subject, test=test, exam=exam)
+                result.save()
+                messages.success(request, 'Scores Saved')
+        except Exception as e:
+            messages.warning(request, 'Error Occured While Processing Form')
+    return render(request, 'staff_template/staff_add_result.html', context)
     
+
+
