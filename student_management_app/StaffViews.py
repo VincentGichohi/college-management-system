@@ -107,7 +107,7 @@ def staff_update_attendance(request):
         'page_title': 'Update Attendance'
     }
     return render(request, 'staff_template/staff_update_attendance.html', context)
-    
+
 
 @csrf_exempt
 def get_student_attendance(request):
@@ -124,5 +124,26 @@ def get_student_attendance(request):
         return JsonResponse(json.dumps(student_data), content_type='application/json', safe=False)
     except Exception as e:
         return e
+
+
+@csrf_exempt
+def update_attendance(request):
+    student_data = request.POST.get('student_ids')
+    date = request.POST.get('date')
+    students = json.loads(student_data)
+    try:
+        attendance = get_object_or_404(Attendance, id=date)
+
+        for student_dict in students:
+            student = get_object_or_404(
+                    Student, admin_id=student_dict.get('id'))
+            attendance_report = get_object_or_404(AttendanceReport, student=student, attendance=attendance)
+            attendance_report.status = student_dict.get('status')
+            attendance_report.save()
+    except Exception as e:
+        return None
+
+    return HttpResponse('OK')
+    
 
 
