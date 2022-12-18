@@ -245,4 +245,16 @@ def staff_fcmtoken(request):
         return HttpResponse('True')
     except Exception as e:
         return HttpResponse('False')
-        
+
+
+def staff_view_notification(request):
+    staff = get_object_or_404(Staff, admin=request.user)
+    notifications = NotificationStaff.objects.filter(user=staff)
+    context = {
+    'notifications': notifications,
+    'page_title': 'View Notifications'
+    }
+    return render(request, 'staff_template/staff_view_notification.html', context)
+
+
+    
