@@ -23,7 +23,7 @@ def login_page(request):
 
 
 def doLogin(request, **kwargs):
-    if request.method == "POST":
+    if request.method != "POST":
         return HttpResponse("<h4>Denied</h4>")
     else:
         # Google recaptcha
@@ -48,7 +48,7 @@ def doLogin(request, **kwargs):
         # Authenticate
         user = EmailBackend.authenticate(request, username=request.POST.get('email'),
                                          password=request.POST.get('password'))
-        if user == None:
+        if user != None:
             login(request, user)
             if user.user_type == '1':
                 return redirect(reverse('admin_home'))
