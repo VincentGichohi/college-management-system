@@ -23,7 +23,7 @@ def login_page(request):
 
 
 def doLogin(request, **kwargs):
-    if request.method == "POST":
+    if request.method != "POST":
         return HttpResponse("<h4>Denied</h4>")
     else:
         # Google recaptcha
