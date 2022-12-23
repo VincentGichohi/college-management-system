@@ -37,7 +37,7 @@ class CustomUserForm(FormSettings):
             instance = kwargs.get('instance').admin.__dict__
             self.fields['password'].required = False
             for field in CustomUserForm.Meta.fields:
-                self.fields['field'].initial = instance.get(field)
+                self.fields[field].initial = instance.get(field)
             if self.instance.pk is not None:
                 self.fields['password'].widget.attrs['placeholder'] = "Fill this only if you wish to update the " \
                                                                       "password"

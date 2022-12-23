@@ -86,7 +86,7 @@ WSGI_APPLICATION = 'student_management_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cms',
+        'NAME': 'college management system',
         'PORT': '5432',
         'HOST': '',
         'USERNAME': 'postgres',
