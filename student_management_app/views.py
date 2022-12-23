@@ -13,9 +13,9 @@ from .models import Session, Attendance, Subject
 def login_page(request):
     # Validating the authenticated user
     if request.user.is_authenticated:
-        if request.user_type == '1':
+        if request.user.user_type == '1':
             return redirect(reverse("admin_home"))
-        elif request.user_type == '2':
+        elif request.user.user_type == '2':
             return redirect(reverse("staff_home"))
         else:
             return redirect(reverse("student_home"))
@@ -48,7 +48,7 @@ def doLogin(request, **kwargs):
         # Authenticate
         user = EmailBackend.authenticate(request, username=request.POST.get('email'),
                                          password=request.POST.get('password'))
-        if user == None:
+        if user != None:
             login(request, user)
             if user.user_type == '1':
                 return redirect(reverse('admin_home'))

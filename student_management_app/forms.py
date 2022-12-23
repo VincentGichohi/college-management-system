@@ -44,17 +44,17 @@ class CustomUserForm(FormSettings):
 
     def clean_email(self, *args, **kwargs):
         formEmail = self.cleaned_data['email'].lower()
-        if self.instance.pk is None:
+        if self.instance.pk is None:  # insert
             if CustomUser.objects.filter(email=formEmail).exists():
                 raise forms.ValidationError(
                     "The given email is already registered."
                 )
-            else:
-                dbEmail = self.Meta.model.objects.get(
-                    id=self.instance.pk).admin.email.lower()
-                if dbEmail != formEmail:
-                    if CustomUser.objects.filter(email=formEmail).eixsts():
-                        raise forms.ValidationError("The given email is already registered")
+        else:  # update
+            dbEmail = self.Meta.model.objects.get(
+                id=self.instance.pk).admin.email.lower()
+            if dbEmail != formEmail:
+                if CustomUser.objects.filter(email=formEmail).eixsts():
+                    raise forms.ValidationError("The given email is already registered")
 
             return formEmail
 

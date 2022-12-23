@@ -6,7 +6,7 @@ from django.contrib.auth.models import UserManager, AbstractBaseUser, Permission
 
 
 class CustomUserManager(UserManager):
-    def create_user(self, email, password, **extra_fields):
+    def _create_user(self, email, password, **extra_fields):
         email = self.normalize_email(email)
         user = CustomUser(email=email, **extra_fields)
         user.password = make_password(password)
@@ -16,7 +16,7 @@ class CustomUserManager(UserManager):
     def create_user(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
-        return self.create_user(email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
@@ -24,7 +24,7 @@ class CustomUserManager(UserManager):
 
         assert extra_fields['is_staff']
         assert extra_fields['is_superuser']
-        return self.create_user(email, password, **extra_fields)
+        return self._create_user(email, password, **extra_fields)
 
 
 class Session(models.Model):
@@ -39,9 +39,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     USER_TYPE = ((1, "HOD"), (2, "Staff"), (3, "Student"))
     GENDER = [("M", "Male"), ("F", "Female")]
 
-    username = None  # No username field, will be replaced with email
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
+    is_staff  =models.BooleanField(default=False)
     email = models.EmailField(unique=True)
     user_type = models.CharField(default=1, choices=USER_TYPE, max_length=1)
     gender = models.CharField(max_length=1, choices=GENDER)
