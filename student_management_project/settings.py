@@ -10,7 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-import dj_database_url
+# import dj_database_url
 from pathlib import Path
 import os
 
@@ -27,19 +27,19 @@ SECRET_KEY = 'django-insecure-xv1bbr*pdkrnizeyu^e&48k!3u^b-co+pt1vej%p)9q*&lbx0%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', 'cms-VincentGichohi.pythonanywhere.com']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'student_management_app.apps.StudentManagementAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'student_management_app.apps.StudentManagementAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -85,12 +85,8 @@ WSGI_APPLICATION = 'student_management_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'college management system',
-        'PORT': '5432',
-        'HOST': '',
-        'USERNAME': 'postgres',
-        'PASSWORD': '0000'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -149,12 +145,12 @@ AUTHENTICATION_BACKENDS = ['student_management_app.EmailBackend.EmailBackend']
 
 TIME_ZONE = 'Africa/Nairobi'
 
-EMAIL_HOST_USER = os.environ.get('EMAIL_ADDRESS') 
+EMAIL_HOST_USER = os.environ.get('EMAIL_ADDRESS')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 EMAIL_USE_TLS = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-prod_db = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(prod_db)
+# prod_db = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(prod_db)
 
