@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ['localhost', 'cms-VincentGichohi.pythonanywhere.com']
 # Application definition
 
 INSTALLED_APPS = [
-    'student_management_app.apps.StudentManagementAppConfig',
+    'student_management_app',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
