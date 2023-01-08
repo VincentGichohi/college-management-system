@@ -41,7 +41,7 @@ def admin_home(request):
         course_name_list.append(course.name)
         subject_count_list.append(subjects)
         student_count_list_in_course.append(students)
-    
+
     subject_all = Subject.objects.all()
     subject_list = []
     student_count_list_in_subject = []
@@ -59,7 +59,7 @@ def admin_home(request):
 
     students = Student.objects.all()
     for student in students:
-        
+
         attendance = AttendanceReport.objects.filter(student_id=student.id, status=True).count()
         absent = AttendanceReport.objects.filter(student_id=student.id, status=False).count()
         leave = LeaveReportStudent.objects.filter(student_id=student.id, status=1).count()
