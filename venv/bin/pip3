@@ -1,4 +1,4 @@
-#!/home/vinny/Documents/Code-2/college-management-system/venv/bin/python3
+#!/home/VincentGichohi/college-management-system/venv/bin/python3
 # -*- coding: utf-8 -*-
 import re
 import sys
